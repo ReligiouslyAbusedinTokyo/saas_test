@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Navbar from "@/components/global/navbar";
+import {InfiniteMovingCards} from "@/components/global/infinite-moving-cards"
+import {HeroParallax} from "@/components/global/connect-parallax"
+import { clients, products } from '@/lib/constant'
 import { ContainerScroll } from "@/components/container-scroll-animation";
 import { Button } from "@/components/ui/button";
+
 
 export default function Home() {
   return (
@@ -36,17 +40,24 @@ export default function Home() {
 
                 </Button>
 
-                <h1 className="text-5xl md:text-8xl  bg-clip-text text-transparent bg-gradient-to-b from-white
+                <h1 className="text-5xl md:text-6xl  bg-clip-text text-transparent bg-gradient-to-b from-white
                  to-neutral-600 font-sans font-bold">
                   Automate Your Work With Chama
                 </h1>
           </div>
         }
         />
-
-       
         </div>   
-       
+      </section>
+
+      <InfiniteMovingCards
+        className="md:mt-[18rem] mt-[-100px]"
+        items={clients}
+        direction="right"
+        speed="slow"
+      />
+      <section>
+        <HeroParallax products={products}></HeroParallax>
       </section>
     
     </main>
