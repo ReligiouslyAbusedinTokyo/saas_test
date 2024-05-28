@@ -31,7 +31,7 @@ const onRemoveProfileImage = async () =>{
         <div className="flex h-[30vh] flex-col items-center justify-center">
        {userImage? (
        <>
-       <div className="relative h-full w02/12">
+       <div className="relative h-full w-2/12">
         <Image
           src={userImage}
           alt="User_Image"
