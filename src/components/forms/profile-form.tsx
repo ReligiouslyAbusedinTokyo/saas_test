@@ -16,9 +16,12 @@ import {
   import { Button } from '../ui/button'
 import { Loader2 } from 'lucide-react'
 
-type Props = {}
+type Props = {
+  user:any
+  onUpdate?:any
+}
 
-const ProfileForm = (props: Props) => {
+const ProfileForm = ({user, onUpdate}: Props) => {
   
   const [isLoading, setIsLoading] = useState(false)
 
@@ -26,14 +29,29 @@ const ProfileForm = (props: Props) => {
     mode: 'onChange',
     resolver: zodResolver(EditUserProfileSchema),
     defaultValues: {
-        name: '',
-        email:'',
+        name: user.name,
+        email:user.email,
     },
   })
+
+  const handleSubmit = async (
+    values: z.infer<typeof EditUserProfileSchema>
+  ) => {
+    setIsLoading(true)
+    await onUpdate(values.name)
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    form.reset({ name: user.name, email: user.email })
+  }, [user])
   
     return (
     <Form {...form}>
-     <form className="flex flex-col gap-6" onSubmit={()=>{}}>
+     <form 
+      className="flex flex-col gap-6" 
+      onSubmit={form.handleSubmit(handleSubmit)}
+     >
         <FormField 
         disabled={isLoading}
         control={form.control}
@@ -43,8 +61,9 @@ const ProfileForm = (props: Props) => {
                 <FormLabel className="text-lg">User full name </FormLabel>
                 <FormControl>
                     <Input
+                     {...field}
                     placeholder="Name"
-                    {...field}
+                   
                     />
                 </FormControl>
                 <FormMessage/>
@@ -61,9 +80,10 @@ const ProfileForm = (props: Props) => {
                 <FormLabel className="text-lg">Email</FormLabel>
                 <FormControl>
                     <Input
+                     {...field}
                     placeholder="Email"
                     type="email"
-                    {...field}
+                   
                     disabled
                     />
                 </FormControl>
