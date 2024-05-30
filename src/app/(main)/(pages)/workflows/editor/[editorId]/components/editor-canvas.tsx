@@ -1,5 +1,5 @@
 'use client'
-import React,{useCallback, useMemo, useState} from 'react'
+import React,{useCallback, useMemo, useState, useEffect} from 'react'
 import ReactFlow, {
   Background,
   Connection,
@@ -139,6 +139,10 @@ const EditorCanvas = (props: Props) => {
       })
     }
   
+
+  useEffect(()=>{
+    dispatch({type:'LOAD_DATA', payload:{edges, elements:nodes}},[nodes, edges])
+  })
 
     const nodeTypes = useMemo(
         () => ({
