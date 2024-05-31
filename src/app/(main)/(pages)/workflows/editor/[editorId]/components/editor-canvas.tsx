@@ -139,10 +139,13 @@ const EditorCanvas = (props: Props) => {
       })
     }
   
+    useEffect(() => {
+      dispatch({ type: 'LOAD_DATA', payload: { edges, elements: nodes } })
+    }, [nodes, edges])
 
-  useEffect(()=>{
-    dispatch({type:'LOAD_DATA', payload:{edges, elements:nodes}},[nodes, edges])
-  })
+  // useEffect(()=>{
+  //   dispatch({type:'LOAD_DATA', payload:{edges, elements:nodes}},[nodes, edges])
+  // })
 
     const nodeTypes = useMemo(
         () => ({

@@ -5,7 +5,7 @@ import { useEditor } from '@/providers/editor-provider'
 import { useNodeConnections } from '@/providers/connections-provider'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from '@radix-ui/react-separator'
-import { EditorCanvasDefaultCardTypes } from '@/lib/constant'
+import { CONNECTIONS, EditorCanvasDefaultCardTypes } from '@/lib/constant'
 import {
     Card,
     CardDescription,
@@ -13,7 +13,16 @@ import {
     CardTitle,
   } from '@/components/ui/card'
 import { onDragStart } from '@/lib/editor-utils'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 import EditorCanvasIconHelper from '../editor-canvas-card-icon-helper'
+import RenderConnectionAccordion from './render-connection-accordion'
+import { useFuzzieStore } from '@/store'
+
 
 type Props = {
     nodes:EditorNodeType[]
@@ -22,6 +31,7 @@ type Props = {
 const EditorCanvasSidebar = ({nodes}: Props) => {
   const {state} = useEditor()
   const {nodeConnection} = useNodeConnections()
+  const { googleFile, setSlackChannels } = useFuzzieStore()
     return (
     <aside>
         <Tabs 
@@ -64,7 +74,36 @@ const EditorCanvasSidebar = ({nodes}: Props) => {
                 </CardHeader>
               </Card>
             ))}
+        </TabsContent>
+        <TabsContent value="settings" className="-mt-6">
+         <div className='px-2 py-4 text-center text-xl font-bold'>
+          {state.editor.selectedNode.data.title}
+          </div>
 
+          <Accordion type="multiple">
+              <AccordionItem
+              value="Options"
+              className="border-y-[1px] px-2"
+              >
+                 <AccordionTrigger className="!no-underline">
+             Account
+                 </AccordionTrigger>
+                 <AccordionContent>
+                 {CONNECTIONS.map((connection) => (
+                  <RenderConnectionAccordion
+                    key={connection.title}
+                    state={state}
+                    connection={connection}
+                  />
+                ))}
+
+
+                 </AccordionContent>
+
+                
+              </AccordionItem>
+          </Accordion>
+          
 
         </TabsContent>
         </Tabs>
