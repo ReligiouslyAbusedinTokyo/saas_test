@@ -22,6 +22,7 @@ import {
 import EditorCanvasIconHelper from '../editor-canvas-card-icon-helper'
 import RenderConnectionAccordion from './render-connection-accordion'
 import { useFuzzieStore } from '@/store'
+import RenderOutputAccordion from './render-output-accordion'
 
 
 type Props = {
@@ -81,12 +82,12 @@ const EditorCanvasSidebar = ({nodes}: Props) => {
           </div>
 
           <Accordion type="multiple">
-              <AccordionItem
+            <AccordionItem
               value="Options"
               className="border-y-[1px] px-2"
               >
                  <AccordionTrigger className="!no-underline">
-             Account
+                  Account
                  </AccordionTrigger>
                  <AccordionContent>
                  {CONNECTIONS.map((connection) => (
@@ -96,15 +97,21 @@ const EditorCanvasSidebar = ({nodes}: Props) => {
                     connection={connection}
                   />
                 ))}
-
-
                  </AccordionContent>
-
-                
               </AccordionItem>
+              <AccordionItem
+              value="Expected Output"
+              className="px-2"
+            >
+              <AccordionTrigger className="!no-underline">
+                Action
+              </AccordionTrigger>
+              <RenderOutputAccordion
+                state={state}
+                nodeConnection={nodeConnection}
+              />
+            </AccordionItem>
           </Accordion>
-          
-
         </TabsContent>
         </Tabs>
     </aside>
